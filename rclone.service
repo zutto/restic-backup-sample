@@ -1,4 +1,4 @@
-Unit]
+[Unit]
 Description=rclone mount
 
 #if you have solid stable connection, this may be good idea to enable
