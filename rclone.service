@@ -1,0 +1,43 @@
+Unit]
+Description=rclone mount
+
+#if you have solid stable connection, this may be good idea to enable
+#AssertPathIsDirectory=/mnt/remote
+
+
+Wants=network-online.target
+After=network.target network-online.target
+OnFailure=rclone-failure.service
+
+[Service]
+Type=simple
+#this is dirty, but problems have occured when the mount fails..
+ExecStartPre=bash -c '/usr/bin/fusermount -u /mnt/remote/; exit 0';
+
+
+#includes bwlimit proposal is for home connections.. your mileage may 
+#tune to your liking
+ExecStart=/usr/bin/rclone mount \
+        --config=/root/.config/rclone/rclone.conf \
+        --allow-root \
+        --async-read \
+        --read-only \
+        --bwlimit "02:00,off 05:30,10M" \
+        --checkers=4 \
+        --stats=0 \
+        --transfers=4 \
+        --timeout=30s \
+        <my rclone mount point>:/mnt/volume /mnt/remote
+ExecStop=/usr/bin/fusermount -u /mnt/remote/
+Restart=on-failure
+RestartSec=1
+
+## can be removed, tuned to work on low-end RPI
+Environment="GOGC=20"
+Environment="GOMAXPROCS=2"
+
+[Install]
+WantedBy=default.target
+
+
+

@@ -1,0 +1,25 @@
+[Unit]
+Description=Restic backup on repo %I
+After=syslog.target rclone.service
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStartPost=/usr/bin/restic --verbose forget \
+                                --keep-last 30 \
+                                --keep-weekly 8 \
+                                --keep-monthly 4 \
+                                --keep yearly 2
+ExecStartPost=/usr/bin/restic --verbose prune
+ExecStart=/usr/bin/restic \
+        --verbose \
+        backup \
+        --files-from /etc/restic/%I/%I.files \
+        --exclude-file /etc/restic/%I/%I.excludes
+EnvironmentFile=/etc/restic/%I/%I.env
+
+
+[Install]
+WantedBy=multi-user.target
+
+

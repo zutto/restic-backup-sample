@@ -1,0 +1,6 @@
+[Unit]
+Description=rclone mount repair on failure
+
+[Service]
+ExecStart=bash -c '/usr/bin/fusermount -u /mnt/remote/; exit 0';
+

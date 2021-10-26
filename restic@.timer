@@ -1,0 +1,17 @@
+[Unit]
+# the timer, enabled as restic@your-repo.timer, will trigger
+# restic@your-repo.service
+Description=Run Restic at 12:00 AM
+
+[Timer]
+#start at midnight every day (local time)
+OnCalendar=*-*-* 00:00:00
+
+
+#start at different times, can be removed
+RandomizedDelaySec=3h
+
+
+[Install]
+WantedBy=timers.target
+

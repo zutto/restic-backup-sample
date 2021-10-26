@@ -1,0 +1,3 @@
+/mnt/remote/path-to-excluded-file
+/mnt/remote/path-to-excluded-file2
+/mnt/remote/path-to-excluded-file/**

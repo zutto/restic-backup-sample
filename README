@@ -1,0 +1,9 @@
+
+
+#1 configure rclone (or other location to ingest backups from, rclone is gut)
+#2 configure env folder for the backup target
+#3 init restic repo
+#4 ????
+#5 enable service & profit
+
+
